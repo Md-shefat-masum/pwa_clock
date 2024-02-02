@@ -18,7 +18,8 @@ worker.onmessage = function (event) {
     let elapsedTime = event.data;
 
     let left_min = parseInt(elapsedTime.split(':')[0]) + 1;
-    navigator.setAppBadge(left_min);
+    if (navigator.setAppBadge)
+        navigator.setAppBadge(left_min);
 
     let time_div = document.querySelector('.time_div');
     if (time_div) {
