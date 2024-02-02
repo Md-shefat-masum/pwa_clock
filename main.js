@@ -13,13 +13,17 @@ if ('serviceWorker' in navigator) {
 }
 
 const worker = new Worker('./watchworker.js');
-let time_interval = 20;
 worker.onmessage = function (event) {
     let elapsedTime = event.data;
 
     let left_min = parseInt(elapsedTime.split(':')[0]) + 1;
+    let left_sec = parseInt(elapsedTime.split(':')[1]);
     if (navigator.setAppBadge)
         navigator.setAppBadge(left_min);
+
+    if(left_min == 1 && left_sec <= 7){
+        document.getElementById('sound').play();
+    }
 
     let time_div = document.querySelector('.time_div');
     if (time_div) {

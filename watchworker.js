@@ -1,6 +1,6 @@
 let countdown;
 let timerRunning = false;
-let time_interval = 20;
+let time_interval = 1;
 const initialTime = time_interval * 60; // 20 minutes in seconds
 let currentTime = initialTime;
 

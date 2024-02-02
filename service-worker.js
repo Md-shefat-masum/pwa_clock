@@ -11,6 +11,10 @@ self.addEventListener('install', function (event) {
                 './main.js',
                 './service-worker.js',
                 './watchworker.js',
+                './notify.wav',
+                './16.ico',
+                './192.png',
+                './512.png',
                 // Add more paths as needed
             ]);
         })
