@@ -23,7 +23,7 @@ worker.onmessage = function (event) {
     let time_div = document.querySelector('.time_div');
     if (time_div) {
         time_div.innerHTML = elapsedTime;
-        document.title = "left: " + elapsedTime;
+        document.title = elapsedTime;
     }
 };
 
