@@ -30,8 +30,8 @@ function startTimer() {
 function resetTimer() {
     clearInterval(countdown);
     currentTime = initialTime;
-    updateTime();
     timerRunning = false;
+    startTimer();
 }
 
 // Listen for messages from the main script

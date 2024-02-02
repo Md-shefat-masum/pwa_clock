@@ -15,8 +15,10 @@ if ('serviceWorker' in navigator) {
 const worker = new Worker('./watchworker.js');
 let time_interval = 20;
 worker.onmessage = function (event) {
-    const elapsedTime = event.data;
-    navigator.setAppBadge(elapsedTime.split(':')[0]);
+    let elapsedTime = event.data;
+    
+    let left_min = parseInt(elapsedTime.split(':')[0]) + 1;
+    navigator.setAppBadge(left_min);
 
     let time_div = document.querySelector('.time_div');
     if (time_div) {
