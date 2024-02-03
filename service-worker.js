@@ -60,6 +60,7 @@ self.addEventListener('install', function (event) {
         caches.open('your-app-cache').then(function (cache) {
             return cache.addAll([
                 // Add paths to your static assets (HTML, CSS, JS, images, etc.)
+                '/pwa_clock',
                 './index.html',
                 './styles.css',
                 './main.js',
