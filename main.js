@@ -34,15 +34,15 @@ if ('serviceWorker' in navigator) {
         };
 
         // Function to start the stopwatch
-        function startStopwatch() {
+        startStopwatch = () => {
             s_worker_r.postMessage('start');
         }
         
         // Function to stop the stopwatch
-        function stopStopwatch() {
+        stopStopwatch = () => {
             s_worker_r.postMessage('stop');
         }
-        function resetStopwatch() {
+        resetStopwatch = () => {
             s_worker_r.postMessage('reset');
         }
     });
