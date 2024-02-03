@@ -1,7 +1,7 @@
 // service-worker.js
 let countdown;
 let timerRunning = false;
-let time_interval = 10;
+let time_interval = 1;
 const initialTime = time_interval * 60; // 20 minutes in seconds
 let currentTime = initialTime;
 
@@ -10,15 +10,13 @@ function updateTime() {
     const minutes = Math.floor(currentTime / 60);
     const seconds = currentTime % 60;
     const displayTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    //postMessage(displayTime);
 
-    self.clients.matchAll().then(clients => {
-      // Iterate through the clients and send a message to each one
-          clients.forEach(client => {
-                // Send a message to the client
-                client.postMessage(displayTime);
-          });
-    });
+    self.clients.matchAll().then(all => all.forEach(client => {
+        client.postMessage({
+            command: 'print',
+            msg: displayTime
+        });
+    }));
 
     if (currentTime <= 0) {
         resetTimer();
@@ -45,7 +43,7 @@ function resetTimer() {
 
 // Listen for messages from the main script
 onmessage = function (event) {
-    const command = event.data;
+    const command = event.data.command;
     if (command === 'start') {
         startTimer();
     } else if (command === 'stop') {
@@ -94,9 +92,14 @@ self.addEventListener('push', function (event) {
             // Update the badge count from the incoming notification data
         }
     };
-
     event.waitUntil(
         self.registration.showNotification('New Notification', options)
     );
     self.registration.showNotification("Hello from the Service Worker!");
+});
+
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        self.clients.claim()
+    );
 });

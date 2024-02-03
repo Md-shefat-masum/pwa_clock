@@ -5,56 +5,46 @@ let resetStopwatch = () => '';
 
 // Create a new Web Worker
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-        let s_worker_r = navigator.serviceWorker.register('./service-worker.js')
-            .then(function (registration) {
-                console.log('Service Worker registered with scope:', registration.scope);
-            }, function (err) {
-                console.log('Service Worker registration failed:', err);
-            });
-        
-        navigator.serviceWorker.ready.then((registration) => {
-            // Function to start the stopwatch
-            console.log(registration, s_worker_r);
+    window.addEventListener('load', async function () {
+        let s_worker_r = await navigator.serviceWorker.register('./service-worker.js');
+
+        await navigator.serviceWorker.ready.then((registration) => {
             startStopwatch = () => {
-                registration.active.postMessage('start');
+                registration.active.postMessage({ command: 'start', msg: '' });
             }
             // Function to stop the stopwatch
             stopStopwatch = () => {
-                registration.active.postMessage('stop');
+                registration.active.postMessage({ command: 'stop', msg: '' });
             }
             resetStopwatch = () => {
-                registration.active.postMessage('reset');
+                registration.active.postMessage({ command: 'reset', msg: '' });
             }
         });
-        
-        s_worker_r.onmessage = function (event) {
-            let elapsedTime = event.data;
-        
-            let left_min = parseInt(elapsedTime.split(':')[0]) + 1;
-            let left_sec = parseInt(elapsedTime.split(':')[1]);
-            if (navigator.setAppBadge)
-                navigator.setAppBadge(left_min);
-        
-            if(left_min == 1 && left_sec <= 7){
-                document.getElementById('sound').play();
-                showTimeNotification("Interval just finished",'')
-            }
-        
-            let time_div = document.querySelector('.time_div');
-            if (time_div) {
-                time_div.innerHTML = elapsedTime;
-                document.title = elapsedTime;
-            }
-        };
-        
     });
 }
 
-// Function to format time
-function formatTime(milliseconds) {
-    let min = new Date(milliseconds).toTimeString().split(':')[1];
-    return parseInt(min);
+navigator.serviceWorker.onmessage = function (event) {
+    console.log('Message from service worker:', event);
+
+    if (event.data.command == 'print') {
+        let elapsedTime = event.data.msg;
+
+        let left_min = parseInt(elapsedTime.split(':')[0]) + 1;
+        let left_sec = parseInt(elapsedTime.split(':')[1]);
+        if (navigator.setAppBadge)
+            navigator.setAppBadge(left_min);
+
+        if (left_min == 1 && left_sec <= 7) {
+            document.getElementById('sound').play();
+            showTimeNotification("Interval just finished", '')
+        }
+
+        let time_div = document.querySelector('.time_div');
+        if (time_div) {
+            time_div.innerHTML = elapsedTime;
+            document.title = elapsedTime;
+        }
+    }
 }
 
 // Function to show notification
