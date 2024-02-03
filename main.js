@@ -9,6 +9,18 @@ if ('serviceWorker' in navigator) {
         let s_worker_r = navigator.serviceWorker.register('./service-worker.js')
             .then(function (registration) {
                 console.log('Service Worker registered with scope:', registration.scope);
+                console.log(registration);
+                // Function to start the stopwatch
+                startStopwatch = () => {
+                    registration.postMessage('start');
+                }
+                // Function to stop the stopwatch
+                stopStopwatch = () => {
+                    registration.postMessage('stop');
+                }
+                resetStopwatch = () => {
+                    registration.postMessage('reset');
+                }
             }, function (err) {
                 console.log('Service Worker registration failed:', err);
             });
@@ -33,18 +45,7 @@ if ('serviceWorker' in navigator) {
             }
         };
 
-        // Function to start the stopwatch
-        startStopwatch = () => {
-            s_worker_r.postMessage('start');
-        }
         
-        // Function to stop the stopwatch
-        stopStopwatch = () => {
-            s_worker_r.postMessage('stop');
-        }
-        resetStopwatch = () => {
-            s_worker_r.postMessage('reset');
-        }
     });
 }
 
