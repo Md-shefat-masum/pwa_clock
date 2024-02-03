@@ -9,28 +9,30 @@ if ('serviceWorker' in navigator) {
             }, function (err) {
                 console.log('Service Worker registration failed:', err);
             });
+
+        s_worker_r.onmessage = function (event) {
+            let elapsedTime = event.data;
+        
+            let left_min = parseInt(elapsedTime.split(':')[0]) + 1;
+            let left_sec = parseInt(elapsedTime.split(':')[1]);
+            if (navigator.setAppBadge)
+                navigator.setAppBadge(left_min);
+        
+            if(left_min == 1 && left_sec <= 7){
+                document.getElementById('sound').play();
+            }
+        
+            let time_div = document.querySelector('.time_div');
+            if (time_div) {
+                time_div.innerHTML = elapsedTime;
+                document.title = elapsedTime;
+            }
+        };
     });
 }
 
-const worker = new Worker('./watchworker.js');
-worker.onmessage = function (event) {
-    let elapsedTime = event.data;
+// const worker = new Worker('./watchworker.js');
 
-    let left_min = parseInt(elapsedTime.split(':')[0]) + 1;
-    let left_sec = parseInt(elapsedTime.split(':')[1]);
-    if (navigator.setAppBadge)
-        navigator.setAppBadge(left_min);
-
-    if(left_min == 1 && left_sec <= 7){
-        document.getElementById('sound').play();
-    }
-
-    let time_div = document.querySelector('.time_div');
-    if (time_div) {
-        time_div.innerHTML = elapsedTime;
-        document.title = elapsedTime;
-    }
-};
 
 // Function to start the stopwatch
 function startStopwatch() {
