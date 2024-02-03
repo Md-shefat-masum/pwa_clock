@@ -12,14 +12,14 @@ if ('serviceWorker' in navigator) {
                 console.log(registration, s_worker_r);
                 // Function to start the stopwatch
                 startStopwatch = () => {
-                    registration.postMessage('start');
+                    registration.active.postMessage('start');
                 }
                 // Function to stop the stopwatch
                 stopStopwatch = () => {
-                    registration.postMessage('stop');
+                    registration.active.postMessage('stop');
                 }
                 resetStopwatch = () => {
-                    registration.postMessage('reset');
+                    registration.active.postMessage('reset');
                 }
             }, function (err) {
                 console.log('Service Worker registration failed:', err);
