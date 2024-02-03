@@ -10,7 +10,15 @@ function updateTime() {
     const minutes = Math.floor(currentTime / 60);
     const seconds = currentTime % 60;
     const displayTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    postMessage(displayTime);
+    //postMessage(displayTime);
+
+    self.clients.matchAll().then(clients => {
+      // Iterate through the clients and send a message to each one
+          clients.forEach(client => {
+                // Send a message to the client
+                client.postMessage(displayTime);
+          });
+    });
 
     if (currentTime <= 0) {
         resetTimer();
