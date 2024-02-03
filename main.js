@@ -29,23 +29,20 @@ if ('serviceWorker' in navigator) {
                 document.title = elapsedTime;
             }
         };
+
+        // Function to start the stopwatch
+        function startStopwatch() {
+            worker.postMessage('start');
+        }
+        
+        // Function to stop the stopwatch
+        function stopStopwatch() {
+            worker.postMessage('stop');
+        }
+        function resetStopwatch() {
+            worker.postMessage('reset');
+        }
     });
-}
-
-// const worker = new Worker('./watchworker.js');
-
-
-// Function to start the stopwatch
-function startStopwatch() {
-    worker.postMessage('start');
-}
-
-// Function to stop the stopwatch
-function stopStopwatch() {
-    worker.postMessage('stop');
-}
-function resetStopwatch() {
-    worker.postMessage('reset');
 }
 
 // Function to format time
