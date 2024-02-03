@@ -24,7 +24,7 @@ if ('serviceWorker' in navigator) {
 }
 
 navigator.serviceWorker.onmessage = function (event) {
-    console.log('Message from service worker:', event);
+    // console.log('Message from service worker:', event);
 
     if (event.data.command == 'print') {
         let elapsedTime = event.data.msg;
