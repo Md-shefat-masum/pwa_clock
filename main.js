@@ -9,7 +9,7 @@ if ('serviceWorker' in navigator) {
         let s_worker_r = navigator.serviceWorker.register('./service-worker.js')
             .then(function (registration) {
                 console.log('Service Worker registered with scope:', registration.scope);
-                console.log(registration);
+                console.log(registration, s_worker_r);
                 // Function to start the stopwatch
                 startStopwatch = () => {
                     registration.postMessage('start');
