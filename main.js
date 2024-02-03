@@ -9,22 +9,25 @@ if ('serviceWorker' in navigator) {
         let s_worker_r = navigator.serviceWorker.register('./service-worker.js')
             .then(function (registration) {
                 console.log('Service Worker registered with scope:', registration.scope);
-                console.log(registration, s_worker_r);
-                // Function to start the stopwatch
-                startStopwatch = () => {
-                    registration.active.postMessage('start');
-                }
-                // Function to stop the stopwatch
-                stopStopwatch = () => {
-                    registration.active.postMessage('stop');
-                }
-                resetStopwatch = () => {
-                    registration.active.postMessage('reset');
-                }
             }, function (err) {
                 console.log('Service Worker registration failed:', err);
             });
-
+        
+        navigator.serviceWorker.ready.then((registration) => {
+            // Function to start the stopwatch
+            console.log(registration, s_worker_r);
+            startStopwatch = () => {
+                registration.active.postMessage('start');
+            }
+            // Function to stop the stopwatch
+            stopStopwatch = () => {
+                registration.active.postMessage('stop');
+            }
+            resetStopwatch = () => {
+                registration.active.postMessage('reset');
+            }
+        });
+        
         s_worker_r.onmessage = function (event) {
             let elapsedTime = event.data;
         
@@ -44,7 +47,6 @@ if ('serviceWorker' in navigator) {
                 document.title = elapsedTime;
             }
         };
-
         
     });
 }
