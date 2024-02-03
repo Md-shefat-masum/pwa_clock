@@ -1,4 +1,7 @@
 // main.js
+let startStopwatch = () => '';
+let stopStopwatch = () => '';
+let resetStopwatch = () => '';
 
 // Create a new Web Worker
 if ('serviceWorker' in navigator) {
@@ -32,15 +35,15 @@ if ('serviceWorker' in navigator) {
 
         // Function to start the stopwatch
         function startStopwatch() {
-            worker.postMessage('start');
+            s_worker_r.postMessage('start');
         }
         
         // Function to stop the stopwatch
         function stopStopwatch() {
-            worker.postMessage('stop');
+            s_worker_r.postMessage('stop');
         }
         function resetStopwatch() {
-            worker.postMessage('reset');
+            s_worker_r.postMessage('reset');
         }
     });
 }
