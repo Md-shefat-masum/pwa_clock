@@ -20,6 +20,7 @@ if ('serviceWorker' in navigator) {
         
             if(left_min == 1 && left_sec <= 7){
                 document.getElementById('sound').play();
+                showTimeNotification("Interval just finished",'')
             }
         
             let time_div = document.querySelector('.time_div');
